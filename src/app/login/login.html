@@ -1,3 +1,4 @@
+<app-header/>
 <form class="example-form" #loginForm="ngForm">
   <mat-form-field class="example-full-width">
     <mat-label>Username</mat-label>
@@ -6,23 +7,24 @@
 
   <mat-form-field class="example-full-width">
     <mat-label>Password</mat-label>
-    <input matInput type="password" name="password" [(ngModel)]="password">
+    <input matInput [type]="hide() ? 'password' : 'text'" name="password" [(ngModel)]="password"/>
+    <button
+      matIconButton
+      matSuffix
+      (click)="clickEvent($event)"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hide()"
+    >
+      <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
   </mat-form-field>
 </form>
-<div class="space-y-4 max-w-xs mx-auto">
-            <p-inputgroup>
-                <p-inputgroup-addon>
-                    <svg data-p-icon="user" />
-                </p-inputgroup-addon>
-                <input pInputText [(ngModel)]="text1" placeholder="Username" />
-            </p-inputgroup>
-            <p-inputgroup>
-                <p-inputgroup-addon>https://</p-inputgroup-addon>
-                <input pInputText [(ngModel)]="text2" placeholder="website" />
-                <p-inputgroup-addon>.com</p-inputgroup-addon>
-            </p-inputgroup>
-        </div>
 <div class="button-container">
   <button class="example-button" (click)= "onClick()" mat-raised-button color="primary">Log in
   </button>
+  <button class="example-button" (click)= "onClickSignUp()" matButton="filled" color="accent">Sign up
+  </button>
 </div>
+  <div class="button-container">
+    <button  class="custom-success-btn" (click)= "onClickForgotPassword()" matButton >Forgot Password</button>
+  </div>

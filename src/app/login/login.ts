@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputTextModule } from 'primeng/inputtext';
-import { User } from '@primeicons/angular/user';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { Header } from '../header/header';
+
 interface LoginData {
 username: string;
   password: string;
@@ -15,12 +15,13 @@ username: string;
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, InputGroupModule, InputGroupAddonModule, InputTextModule, User],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, Header],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class Login {
   private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
 
   readonly loginModel = signal<LoginData>({
     username: '',
@@ -42,18 +43,29 @@ export class Login {
   protected set password(value: string) {
     this.loginModel.update((model) => ({ ...model, password: value }));
   }
-
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
+  protected onClickSignUp(): void {
+    this.router.navigate(['/signup']);
+  }
+  protected onClickForgotPassword(): void {
+    console.log('Forgot Password button clicked');
+    this.router.navigate(['/layout']);
+  }
   protected onClick(): void {
     const payload: LoginData = {
       username: this.loginModel().username,
       password: this.loginModel().password,
     };
-
     console.log('Sending payload:', payload);
 
     this.http.post('http://localhost:5109/auth/login', payload).subscribe({
       next: (response) => {
         console.log('Login success:', response);
+        this.router.navigate(['/headerlayout']);/** route to header layout on successful login */
       },
       error: (error) => {
         console.error('Login failed:', error);

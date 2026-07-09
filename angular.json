@@ -25,7 +25,12 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/material-theme.scss", "src/styles.css"]
+            "styles": [
+              "node_modules/devextreme/dist/css/dx.light.css",
+              "src/material-theme.scss",
+              "node_modules/devextreme/dist/css/dx.fluent.blue.light.css",
+              "src/styles.css"
+            ]
           },
           "configurations": {
             "production": {
