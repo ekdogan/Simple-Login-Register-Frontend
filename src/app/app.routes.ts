@@ -8,6 +8,6 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'signup', component: Signup },
   { path: 'layout', component: Layout },
-  {path: 'devx-demo-drawer', loadComponent: () => import('./devx-demo-drawer/devx-demo-drawer').then((c) => c.AppComponent)},
+  /**{path: 'devx-demo-drawer', loadComponent: () => import('./devx-demo-drawer/devx-demo-drawer').then((c) => c.AppComponent)},*/
   {path: 'headerlayout', loadComponent: () => import('./headerlayout/headerlayout').then((c) => c.SidenavResponsiveExample)},
 ];
