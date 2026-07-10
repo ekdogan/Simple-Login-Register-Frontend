@@ -9,6 +9,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { TablePaginationExample } from "../table/table";
 
 export interface PeriodicElement {
   name: string;
@@ -52,10 +53,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatSidenavModule,
     MatListModule,
     MatTableModule,
-    MatPaginatorModule
-  ],
+    MatPaginatorModule,
+    TablePaginationExample
+],
 })
-export class SidenavResponsiveExample implements AfterViewInit, OnDestroy {
+export class SidenavResponsiveExample implements OnDestroy {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   
@@ -80,14 +82,13 @@ export class SidenavResponsiveExample implements AfterViewInit, OnDestroy {
     this._mobileQuery.addEventListener('change', this._mobileQueryListener);
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
 
   ngOnDestroy(): void {
     this._mobileQuery.removeEventListener('change', this._mobileQueryListener);
   }
-
+  onClickNavItem(item: string): void {
+    console.log(`Navigation item clicked: ${item}`);
+  }
   onClickLogout(): void {
     console.log('Logout button clicked');
     this.router.navigate(['/login']);

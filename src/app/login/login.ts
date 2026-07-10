@@ -64,7 +64,7 @@ export class Login {
 
     this.http.post('http://localhost:5109/auth/login', payload).subscribe({
       next: (response) => {
-        console.log('Login success:', response);
+        console.log('Login success:', response);/**login logic*/
         this.router.navigate(['/headerlayout']);/** route to header layout on successful login */
       },
       error: (error) => {
