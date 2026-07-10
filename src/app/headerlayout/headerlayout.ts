@@ -10,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TablePaginationExample } from "../table/table";
-
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -54,19 +53,13 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatListModule,
     MatTableModule,
     MatPaginatorModule,
-    TablePaginationExample
+    TablePaginationExample,
 ],
 })
 export class SidenavResponsiveExample implements OnDestroy {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
-  
-  // Table Setup
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  protected readonly dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  // Responsive Layout Setup
   protected readonly fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
   protected readonly isMobile = signal(true);
 
@@ -88,6 +81,11 @@ export class SidenavResponsiveExample implements OnDestroy {
   }
   onClickNavItem(item: string): void {
     console.log(`Navigation item clicked: ${item}`);
+    if (Number(item.split(' ')[2]) % 2 === 0) {
+      console.log(`Navigating to /even/${item.split(' ')[2]}`);
+    } else {
+      console.log(`Navigating to /odd/${item.split(' ')[2]}`);
+    }
   }
   onClickLogout(): void {
     console.log('Logout button clicked');

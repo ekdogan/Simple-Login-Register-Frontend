@@ -1,21 +1,39 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild, inject} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { MatIcon } from "@angular/material/icon";
+import { MatDialog } from '@angular/material/dialog';
+import { DialogWindow } from "../dialog-window/dialog-window";
 
 @Component({
   selector: 'app-table',
   styleUrl: 'table.css',
   templateUrl: 'table.html',
-  imports: [MatTableModule, MatPaginatorModule],
+  imports: [MatTableModule, MatPaginatorModule, MatIcon],
 })
 export class TablePaginationExample implements AfterViewInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  private dialog = inject(MatDialog);
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'adjust'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+  onClickAdjustButton(element: PeriodicElement): void {
+    const dialogRef = this.dialog.open(DialogWindow, {
+      data: element,
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Update the element with the result from dialog
+        Object.assign(element, result);
+        this.dataSource.data = [...this.dataSource.data];
+      }
+    });
   }
 }
 
