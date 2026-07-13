@@ -95,7 +95,7 @@ protected set LastName(value: string) {
     };
     console.log('Sending payload:', payload);
 
-    this.http.post('http://localhost:5109/auth/register', payload).subscribe({
+    this.http.post('http://localhost:5233/api/auth/register', payload).subscribe({
       next: (response) => {
         console.log('Registration success:', response);
         this.router.navigate(['/login']);

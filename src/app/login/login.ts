@@ -63,7 +63,7 @@ export class Login {
     };
     console.log('Sending payload:', payload);
 
-    this.http.post('http://localhost:5109/auth/login', payload).subscribe({
+    this.http.post('http://localhost:5233/api/auth/login', payload).subscribe({
       next: (response) => {
         console.log('Login success:', response);/**login logic*/
         this.router.navigate(['/headerlayout']);/** route to header layout on successful login */

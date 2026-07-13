@@ -80,6 +80,7 @@ export class SidenavResponsiveExample implements OnDestroy {
     this._mobileQuery.removeEventListener('change', this._mobileQueryListener);
   }
   onClickNavItem(item: string): void {
+    /** Handle navigation item click */
     console.log(`Navigation item clicked: ${item}`);
     if (Number(item.split(' ')[2]) % 2 === 0) {
       console.log(`Navigating to /even/${item.split(' ')[2]}`);

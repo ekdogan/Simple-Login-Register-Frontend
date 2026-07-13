@@ -1,4 +1,5 @@
 import {AfterViewInit, Component, ViewChild, inject, signal} from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatIcon } from "@angular/material/icon";
@@ -6,14 +7,18 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogWindow } from "../dialog-window/dialog-window";
 import { MatExpansionModule } from '@angular/material/expansion';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-table',
   styleUrl: 'table.css',
   templateUrl: 'table.html',
-  imports: [MatTableModule, MatPaginatorModule, MatIcon, MatExpansionModule, MatDividerModule],
+  imports: [MatTableModule, MatPaginatorModule, MatIcon, MatExpansionModule, MatDividerModule, MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule],
 })
 export class TablePaginationExample implements AfterViewInit {
+  value = '';
   readonly panelOpenState = signal(false);
   private dialog = inject(MatDialog);
   displayedColumns: string[] = ['accordion', 'adjust'];
