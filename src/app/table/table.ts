@@ -1,19 +1,22 @@
-import {AfterViewInit, Component, ViewChild, inject} from '@angular/core';
+import {AfterViewInit, Component, ViewChild, inject, signal} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatIcon } from "@angular/material/icon";
 import { MatDialog } from '@angular/material/dialog';
 import { DialogWindow } from "../dialog-window/dialog-window";
+import { MatExpansionModule } from '@angular/material/expansion';
+import {MatDividerModule} from '@angular/material/divider';
 
 @Component({
   selector: 'app-table',
   styleUrl: 'table.css',
   templateUrl: 'table.html',
-  imports: [MatTableModule, MatPaginatorModule, MatIcon],
+  imports: [MatTableModule, MatPaginatorModule, MatIcon, MatExpansionModule, MatDividerModule],
 })
 export class TablePaginationExample implements AfterViewInit {
+  readonly panelOpenState = signal(false);
   private dialog = inject(MatDialog);
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'adjust'];
+  displayedColumns: string[] = ['accordion', 'adjust'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

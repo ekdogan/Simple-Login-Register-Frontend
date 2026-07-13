@@ -92,4 +92,3 @@ export class SidenavResponsiveExample implements OnDestroy {
     this.router.navigate(['/login']);
   }
 }
-
