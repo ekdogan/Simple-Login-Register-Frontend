@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { Header } from '../header/header';
-
+import {MatSnackBar} from '@angular/material/snack-bar';
 interface LoginData {
 username: string;
   password: string;
@@ -22,6 +22,7 @@ username: string;
 export class Login {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  private readonly snackBar = inject(MatSnackBar);
 
   readonly loginModel = signal<LoginData>({
     username: '',
@@ -69,6 +70,9 @@ export class Login {
       },
       error: (error) => {
         console.error('Login failed:', error);
+        if(error.status === 401) {
+          this.snackBar.open(error.error.message, 'Close', { });
+        }
       },
     });
   }

@@ -2,8 +2,8 @@ import { Component, OnDestroy, AfterViewInit, ViewChild, inject, signal } from '
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';

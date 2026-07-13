@@ -1,10 +1,10 @@
-import { Component, inject, model, signal } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { Component, inject, signal } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { PeriodicElement } from '../dialog/dialog';
+import { PeriodicElement } from '../table/table';
 @Component({
   selector: 'app-dialog-window',
   imports: [MatFormFieldModule,

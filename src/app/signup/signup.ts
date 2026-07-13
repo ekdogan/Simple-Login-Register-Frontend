@@ -15,6 +15,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Header } from "../header/header";
+import {MatSnackBar} from '@angular/material/snack-bar';
 interface SignupData {
   username: string;
   password: string;
@@ -38,6 +39,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class Signup {
 private readonly http = inject(HttpClient);
 private readonly router = inject(Router);
+private readonly snackBar = inject(MatSnackBar);
 SignupModel = signal<SignupData>({
     username: '',
     password: '',
@@ -100,6 +102,7 @@ protected set LastName(value: string) {
       },
       error: (error) => {
         console.error('Registration failed:', error);
+          this.snackBar.open(error.error.message, 'Close', { });
       },
     });
 
