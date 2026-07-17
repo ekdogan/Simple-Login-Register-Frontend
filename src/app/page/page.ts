@@ -41,9 +41,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
-  selector: 'headerlayout',
-  templateUrl: 'headerlayout.html',
-  styleUrl: 'headerlayout.css',
+  selector: 'page',
+  templateUrl: 'page.html',
+  styleUrl: 'page.css',
   standalone: true,
   imports: [
     MatToolbarModule,
@@ -56,12 +56,17 @@ const ELEMENT_DATA: PeriodicElement[] = [
     TablePaginationExample,
 ],
 })
-export class SidenavResponsiveExample implements OnDestroy {
+export class Page implements OnDestroy {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
   protected readonly fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
   protected readonly isMobile = signal(true);
+  protected readonly isNightMode = signal(false);
+
+  isNightModeEnabled(): boolean {
+    return this.isNightMode();
+  }
 
   private readonly _mobileQuery: MediaQueryList;
   private readonly _mobileQueryListener: () => void;
@@ -85,6 +90,7 @@ export class SidenavResponsiveExample implements OnDestroy {
     if (Number(item.split(' ')[2]) % 2 === 0) {
       console.log(`Navigating to /even/${item.split(' ')[2]}`);
       this.router.navigate([`/headerlayout`]);
+      
     } else {
       console.log(`Navigating to /odd/${item.split(' ')[2]}`);
       this.router.navigate([`/page`]);
@@ -95,4 +101,9 @@ export class SidenavResponsiveExample implements OnDestroy {
 
     this.router.navigate(['/login']);
   }
+
+  toggleNightMode(): void {
+    this.isNightMode.update(value => !value);
+  }
 }
+

@@ -1,0 +1,19 @@
+.dialog-container {
+  padding: 8px;
+}
+
+.dialog-container.night-mode {
+  background: #111827;
+  color: #f9fafb;
+}
+
+.dialog-container.night-mode .mat-mdc-form-field-label,
+.dialog-container.night-mode .mat-mdc-form-field-input-control,
+.dialog-container.night-mode .mat-mdc-dialog-title,
+.dialog-container.night-mode p {
+  color: #f9fafb !important;
+}
+
+.dialog-container.night-mode .mat-mdc-dialog-surface {
+  background: #111827;
+}

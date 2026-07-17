@@ -1,7 +1,8 @@
-<h2 mat-dialog-title>Update Element</h2>
-<mat-dialog-content>
-  <p>Please update the information:</p>
-  <mat-form-field>
+<div class="dialog-container" [class.night-mode]="isNightMode()">
+  <h2 mat-dialog-title>Update Element</h2>
+  <mat-dialog-content>
+    <p>Please update the information:</p>
+    <mat-form-field>
     <mat-label>Name</mat-label>
     <input matInput [(ngModel)]="name" />
   </mat-form-field>
@@ -17,8 +18,9 @@
     <mat-label>Symbol</mat-label>
     <input matInput [(ngModel)]="symbol" />
   </mat-form-field>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button matButton (click)="onNoClick()">No Thanks</button>
-  <button matButton (click)="onSaveClick()" cdkFocusInitial>Ok</button>
-</mat-dialog-actions>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button matButton (click)="onNoClick()">No Thanks</button>
+    <button matButton (click)="onSaveClick()" cdkFocusInitial>Ok</button>
+  </mat-dialog-actions>
+</div>

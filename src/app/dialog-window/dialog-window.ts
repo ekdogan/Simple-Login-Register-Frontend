@@ -5,6 +5,9 @@ import { MatInputModule } from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { PeriodicElement } from '../table/table';
+interface DialogData extends PeriodicElement {
+  nightMode: boolean;
+}
 @Component({
   selector: 'app-dialog-window',
   imports: [MatFormFieldModule,
@@ -17,9 +20,12 @@ import { PeriodicElement } from '../table/table';
   templateUrl: './dialog-window.html',
   styleUrl: './dialog-window.css',
 })
+
+
 export class DialogWindow {
   readonly dialogRef = inject(MatDialogRef<DialogWindow>);
-  readonly data = inject<PeriodicElement>(MAT_DIALOG_DATA);
+  readonly data = inject<DialogData>(MAT_DIALOG_DATA);
+  readonly isNightMode = signal(this.data.nightMode);
   readonly name = signal(this.data.name);
   readonly position = signal(this.data.position);
   readonly weight = signal(this.data.weight);

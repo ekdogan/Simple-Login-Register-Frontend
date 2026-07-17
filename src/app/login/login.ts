@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,11 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { Header } from '../header/header';
-import {MatSnackBar} from '@angular/material/snack-bar';
-interface LoginData {
-username: string;
-  password: string;
-}
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService, LoginData } from '../authservice';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +16,7 @@ username: string;
   styleUrl: './login.css',
 })
 export class Login {
-  private readonly http = inject(HttpClient);
+  private readonly authService = inject(AuthService); // Inject our new service
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
 
@@ -29,6 +25,7 @@ export class Login {
     password: '',
   });
 
+  // Getter/Setter wrappers for ngModel binding
   protected get username(): string {
     return this.loginModel().username;
   }
@@ -44,35 +41,40 @@ export class Login {
   protected set password(value: string) {
     this.loginModel.update((model) => ({ ...model, password: value }));
   }
+
   hide = signal(true);
+
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
   }
+
   protected onClickSignUp(): void {
     this.router.navigate(['/signup']);
   }
+
   protected onClickForgotPassword(): void {
-    console.log('Forgot Password button clicked');
     this.router.navigate(['/layout']);
   }
+
   protected onClick(): void {
     const payload: LoginData = {
-      username: this.loginModel().username,
-      password: this.loginModel().password,
+      username: this.username,
+      password: this.password,
     };
-    console.log('Sending payload:', payload);
 
-    this.http.post('http://localhost:5233/api/auth/login', payload).subscribe({
+    this.authService.login(payload).subscribe({
       next: (response) => {
-        console.log('Login success:', response);/**login logic*/
-        this.router.navigate(['/headerlayout']);/** route to header layout on successful login */
+        // Auth success is handled by the tap operator in AuthService
+        this.snackBar.open('Welcome back!', 'Dismiss', { duration: 3000 });
+        this.router.navigate(['/headerlayout']);
       },
       error: (error) => {
         console.error('Login failed:', error);
-        if(error.status === 401) {
-          this.snackBar.open(error.error.message, 'Close', { });
-        }
+        
+        // Handle error message gracefully
+        const errorMessage = error.error?.message || 'Invalid username or password.';
+        this.snackBar.open(errorMessage, 'Close', { duration: 5000 });
       },
     });
   }

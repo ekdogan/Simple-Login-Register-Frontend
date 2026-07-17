@@ -1,8 +1,8 @@
-<div class="mat-shadow-2">
+<div class="mat-shadow-2 table-container" [class.night-mode]="nightMode">
   <table mat-table [dataSource]="dataSource">
     
     <!-- Accordion Column -->
-    <ng-container matColumnDef="accordion">
+    <ng-container class="item-container" matColumnDef="accordion">
       <!-- Sol taraftaki "Items" başlığı aynen kalıyor -->
       <th mat-header-cell *matHeaderCellDef class="items-title-cell">Items</th>
       <td mat-cell *matCellDef="let element">
@@ -28,9 +28,9 @@
         <mat-form-field class="search-form-field" appearance="outline">
           <mat-label>Search</mat-label>
           <mat-icon matPrefix>search</mat-icon>
-          <input matInput [(ngModel)]="value">
+          <input matInput [(ngModel)]="value" (keyup)="applyFilter($event)" #input>
           @if (value) {
-            <button matSuffix mat-icon-button aria-label="Clear" (click)="value = ''">
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="clearFilter()">
               <mat-icon>close</mat-icon>
             </button>
           }
@@ -46,6 +46,10 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{value}}"</td>
+    </tr>
   </table>
 
   <mat-divider />
