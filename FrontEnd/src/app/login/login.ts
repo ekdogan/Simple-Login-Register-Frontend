@@ -67,7 +67,7 @@ export class Login {
       next: (response) => {
         // Auth success is handled by the tap operator in AuthService
         this.snackBar.open('Welcome back!', 'Dismiss', { duration: 3000 });
-        this.router.navigate(['/headerlayout']);
+        this.router.navigate(['/page']);
       },
       error: (error) => {
         console.error('Login failed:', error);
