@@ -1,0 +1,6 @@
+@ItemCategorizerApi_HostAddress = http://localhost:5233
+
+GET {{ItemCategorizerApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
