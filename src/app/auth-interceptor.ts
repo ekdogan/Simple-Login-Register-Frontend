@@ -7,7 +7,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.token();
   const router = inject(Router);
-  // If a token exists, clone the request and add the Authorization header
   if (token) {
     const clonedReq = req.clone({
       setHeaders: {
@@ -22,8 +21,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
         console.warn('Token is invalid or expired. Logging out...');
-        authService.logout(); // Wipe client storage
-        router.navigate(['/login']); // Boot back to login
+        authService.logout();
+        router.navigate(['/login']); 
       }
       return throwError(() => error);
     })

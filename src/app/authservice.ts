@@ -31,7 +31,11 @@ export class AuthService {
   logout(): void {
     this.setToken(null);
   }
-
+  expiredForceLogout(): void{
+    if(){
+      this.setToken(null);
+    }
+  }
   private getStoredToken(): string | null {
     if (typeof window === 'undefined') {
       return null;
