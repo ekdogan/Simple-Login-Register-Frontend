@@ -1,0 +1,95 @@
+/* =========================================
+   GENEL VE GÜNDÜZ MODU (VARSAYILAN) STİLLERİ
+   ========================================= */
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f5f7fb;
+  color: #1f2937;
+}
+
+.example-is-mobile .example-toolbar {
+  position: fixed;
+  z-index: 2;
+}
+
+.example-toolbar {
+  background: inherit;
+  color: inherit;
+}
+
+h1.example-app-name {
+  margin-left: 8px;
+}
+
+.example-sidenav-container {
+  flex: 1;
+}
+
+.example-is-mobile .example-sidenav-container {
+  flex: 1 0 auto;
+}
+
+.theme-toggle-button {
+  margin-left: auto;
+}
+
+.logout-button {
+  margin-right: 16px;
+}
+
+.mat-sidenav {
+  background-color: #ffffff;
+}
+
+.nav-list{
+  color: #1f2937 !important;
+  background-color: transparent;
+  transition: background-color 0.3s, color 0.3s;
+}
+.nav-link {
+  color: #1f2937 !important;
+  background-color: transparent;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* =========================================
+   GECE MODU (NIGHT MODE) STİLLERİ
+   ========================================= */
+
+.night-mode .example-toolbar,
+.night-mode .mat-sidenav,
+.night-mode .mat-sidenav-content {
+  background: #111827 !important;
+  color: #f9fafb;
+}
+
+.night-mode .theme-toggle-button,
+.night-mode .logout-button {
+  color: white;
+}
+.night-mode .nav-list{
+    color: white; 
+}
+/* Gece Modu Link Stilleri (Angular Material Kapsüllemesini Aşmak İçin) */
+.night-mode ::ng-deep .nav-link,
+.night-mode ::ng-deep .nav-link .mdc-list-item__primary-text {
+  color: #ffffff !important;
+  /* Material'in kendi değişkenlerini de eziyoruz */
+  --mdc-list-list-item-label-text-color: #ffffff;
+}
+
+.night-mode .nav-link {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Gece Modu Hover Durumu */
+.night-mode .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}

@@ -1,0 +1,11 @@
+<app-header/>
+<form class="example-form" #loginForm="ngForm">
+    <mat-form-field class="example-full-width">
+        <mat-label>Email address</mat-label>
+        <input matInput type="email" name="email">
+  </mat-form-field>
+</form>
+<div class="button-container">
+   <button class="example-button" mat-raised-button color="primary">Send Password</button>
+  <button matButton="filled" color="primary" (click)="onClickBackToLogin()">Back to login</button>
+</div>

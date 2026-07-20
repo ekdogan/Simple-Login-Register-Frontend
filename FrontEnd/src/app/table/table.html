@@ -1,0 +1,60 @@
+<div class="mat-shadow-2 table-container" [class.night-mode]="nightMode">
+  <table mat-table [dataSource]="dataSource">
+    
+    <!-- Accordion Column -->
+    <ng-container class="item-container" matColumnDef="accordion">
+      <!-- Sol taraftaki "Items" başlığı aynen kalıyor -->
+      <th mat-header-cell *matHeaderCellDef class="items-title-cell">Items</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-accordion>
+          <mat-expansion-panel [expanded]="panelOpenState()">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{element.name}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>Position: {{element.position}}</p>
+            <p>Weight: {{element.weight}}</p>
+            <p>Symbol: {{element.symbol}}</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </td>
+    </ng-container>
+
+    <!-- Adjust Column -->
+    <ng-container matColumnDef="adjust">
+      <!-- Arama çubuğu sağ sütunun başlığına yerleşiyor ama CSS ile sınırlandırılıyor -->
+      <th mat-header-cell *matHeaderCellDef class="search-header-cell"> 
+        <mat-form-field class="search-form-field" appearance="outline">
+          <mat-label>Search</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput [(ngModel)]="value" (keyup)="applyFilter($event)" #input>
+          @if (value) {
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="clearFilter()">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+      </th>
+      
+      <td mat-cell *matCellDef="let element">
+        <a matButton class="mat-button" (click)="onClickAdjustButton(element)">
+          <mat-icon>edit</mat-icon>
+        </a>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{value}}"</td>
+    </tr>
+  </table>
+
+  <mat-divider />
+  <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>

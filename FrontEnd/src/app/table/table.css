@@ -1,0 +1,174 @@
+.table-container {
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.mat-icon{
+  color: grey;
+}
+
+/* Tablo Genel Arka Planı */
+.table-container.night-mode,
+.table-container.night-mode .mat-mdc-table {
+  background: #111827;
+  color: #f9fafb;
+}
+/* Tablo Başlıkları ve Hücre Metinleri (MDC sınıfları dahil edildi) */
+.table-container.night-mode .mat-header-cell,
+.table-container.night-mode .mat-cell,
+.table-container.night-mode .mat-mdc-header-cell,
+.table-container.night-mode .mat-mdc-cell,
+.table-container.night-mode .mat-mdc-form-field-label,
+.table-container.night-mode .mat-mdc-form-field-input-control {
+  color: #f9fafb !important;
+}
+
+/* Arama Çubuğu Dış Çizgisi */
+.table-container.night-mode .mat-mdc-form-field-outline,
+.table-container.night-mode .mat-mdc-form-field-outline-thick,
+.table-container.night-mode .mdc-notched-outline__leading,
+.table-container.night-mode .mdc-notched-outline__notch,
+.table-container.night-mode .mdc-notched-outline__trailing {
+  border-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* ----------------------------------------- */
+/* 1. PAGINATOR GECE MODU STİLLERİ           */
+/* ----------------------------------------- */
+.table-container.night-mode .mat-mdc-paginator,
+.table-container.night-mode .mat-mdc-paginator-container {
+  background: transparent !important;
+  color: #f9fafb !important;
+}
+
+/* Paginator içindeki sayfa boyut yazısı ve aralık metni */
+.table-container.night-mode .mat-mdc-paginator-page-size-label,
+.table-container.night-mode .mat-mdc-paginator-range-label,
+.table-container.night-mode .mat-mdc-select-value-text {
+  color: #f9fafb !important;
+}
+
+/* Paginator okları ve dropdown menü oku */
+.table-container.night-mode .mat-mdc-paginator-icon,
+.table-container.night-mode .mat-mdc-select-arrow {
+  fill: #f9fafb !important;
+  color: #f9fafb !important;
+}
+
+/* Paginator butonlarının (önceki/sonraki sayfa) durumu */
+.table-container.night-mode .mat-mdc-icon-button[disabled] .mat-mdc-paginator-icon {
+  fill: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ----------------------------------------- */
+/* 2. EXPANSION PANEL (ACCORDION) STİLLERİ   */
+/* ----------------------------------------- */
+.table-container.night-mode .mat-expansion-panel {
+  background: #1f2937 !important; /* Tablo arka planından hafif açık bir ton */
+  color: #f9fafb !important;
+}
+
+.table-container.night-mode .mat-expansion-panel-header-title,
+.table-container.night-mode .mat-expansion-panel-header-description {
+  color: #f9fafb !important;
+}
+
+/* Accordion açma/kapama oku */
+.table-container.night-mode .mat-expansion-indicator::after {
+  color: #f9fafb !important;
+}
+
+
+
+.mat-header-row, .mat-row {
+
+  display: flex;
+
+  align-items: center;
+
+  box-sizing: border-box;
+
+}
+
+.mat-header-cell, .mat-cell {
+
+  flex: none; 
+
+  display: flex;
+
+  align-items: center;
+
+  box-sizing: border-box;
+
+}
+
+
+
+.mat-button {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 40px;
+
+  height: 40px;
+
+  border-radius: 4px;
+
+  margin-left: auto;
+
+ 
+
+}
+
+
+
+.items-title-cell,
+
+.mat-cell:nth-child(1),
+
+.mat-column-accordion {
+
+  flex: 1 !important;
+
+  font-size: 16px;
+
+  font-weight: 500;
+
+}
+
+
+
+.search-header-cell,
+
+.mat-cell:nth-child(2),
+
+.mat-column-adjust {
+
+  width: 300px !important;
+
+  justify-content: flex-end;
+
+}
+
+
+
+.search-form-field {
+
+  width: 100%;
+
+  margin-bottom: -16px;
+
+}
+
+
+
+.search-form-field .mat-mdc-form-field-subscript-wrapper {
+
+  display: none;
+
+} 
+

@@ -1,0 +1,24 @@
+.example-form {
+  margin: 0 auto;
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  margin-top: 10rem;
+}
+.example-full-width {
+  width: 100%;}
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.example-button{
+  margin: 0 2.5rem;
+}
+.custom-success-btn {
+  /* Targets the internal container and text properties of the Material button */
+  --mdc-flat-button-container-color: #ffffff;
+  --mdc-flat-button-label-text-color: #ffffff;
+  --mat-sys-primary: #ffffff;
+  /* For M3 / newer variations, you can also scope system variables directly: */; 
+}
