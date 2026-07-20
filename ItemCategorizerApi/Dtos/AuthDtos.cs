@@ -1,5 +1,5 @@
 namespace ItemCategorizerApi.Dtos;
 
 public record RegisterDto(string Email, string Password, string FirstName, string LastName, string UserName); 
-public record LoginDto(string Email, string Password);
+public record LoginDto(string UserName, string Password);
 public record AuthResponseDto(bool Success, string Token, string Message);
