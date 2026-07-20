@@ -25,14 +25,14 @@ public class AuthController : ControllerBase
 	[HttpPost("register")]
 	public async Task<IActionResult> Register([FromBody] RegisterDto model)
 	{
-		var userExists = await _userManager.FindByEmailAsync(model.Email);
+		/*var userExists = await _userManager.FindByEmailAsync(model.Email);
 		if (userExists != null)
-			return BadRequest(new AuthResponseDto(false, "", "User already exists."));
+			return BadRequest(new AuthResponseDto(false, "", "User already exists."));*/
 
 		ApplicationUser user = new()
 		{
 			Email = model.Email,
-			UserName = model.Email,
+			UserName = model.UserName,
 			SecurityStamp = Guid.NewGuid().ToString(),
 			FirstName = model.FirstName, 
 			LastName = model.LastName,   
@@ -58,8 +58,15 @@ public class AuthController : ControllerBase
 			var token = GenerateJwtToken(user);
 			return Ok(new AuthResponseDto(true, token, "Login successful."));
 		}
-
-		return Unauthorized(new AuthResponseDto(false, "", "Invalid credentials."));
+		else if (user == null)
+		{
+			return Unauthorized(new AuthResponseDto(false, "", "User Not Found"));
+		}
+		else if (user!=null && !await _userManager.CheckPasswordAsync(user, model.Password))
+		{
+            return Unauthorized(new AuthResponseDto(false, "", "Password Wrong!"));
+        }
+            return Unauthorized(new AuthResponseDto(false, "", "Invalid credentials."));
 	}
 
 	private string GenerateJwtToken(ApplicationUser user)
