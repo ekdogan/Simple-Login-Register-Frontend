@@ -1,17 +1,11 @@
 .table-container {
-
   padding: 8px;
-
   border-radius: 4px;
-
 }
 
 .mat-icon{
-
   color: grey;
-
 }
-
 
 /* Tablo Genel Arka Planı */
 .table-container.night-mode,
@@ -19,7 +13,6 @@
   background: #111827;
   color: #f9fafb;
 }
-
 /* Tablo Başlıkları ve Hücre Metinleri (MDC sınıfları dahil edildi) */
 .table-container.night-mode .mat-header-cell,
 .table-container.night-mode .mat-cell,
@@ -99,7 +92,7 @@
 
 .mat-header-cell, .mat-cell {
 
-  flex: none; /* Disable equal flex-grow */
+  flex: none; 
 
   display: flex;
 

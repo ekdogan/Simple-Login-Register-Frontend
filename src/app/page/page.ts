@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TablePaginationExample } from "../table/table";
+import { AuthService } from '../authservice';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -59,6 +60,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class Page implements OnDestroy {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  private readonly authService = inject(AuthService); 
 
   protected readonly fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
   protected readonly isMobile = signal(true);
@@ -98,7 +100,7 @@ export class Page implements OnDestroy {
   }
   onClickLogout(): void {
     console.log('Logout button clicked');
-
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 

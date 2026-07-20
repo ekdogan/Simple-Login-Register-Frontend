@@ -2,18 +2,34 @@
   padding: 8px;
 }
 
+
+/* Ana kapsayıcının renkleri */
 .dialog-container.night-mode {
   background: #111827;
   color: #f9fafb;
 }
 
-.dialog-container.night-mode .mat-mdc-form-field-label,
-.dialog-container.night-mode .mat-mdc-form-field-input-control,
-.dialog-container.night-mode .mat-mdc-dialog-title,
-.dialog-container.night-mode p {
+/* ::ng-deep ile alt Material elemanlarına müdahale ediyoruz */
+.dialog-container.night-mode ::ng-deep .mat-mdc-dialog-title {
+  color: #f9fafb;
+}
+
+/* Input alanının arka planı */
+.dialog-container.night-mode ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: #1f2937; /* Input'un kendi arkaplan rengi (ana arkaplandan biraz farklı olabilir) */
+}
+
+/* Input içindeki yazının rengi */
+.dialog-container.night-mode ::ng-deep .mat-mdc-form-field-input-control {
   color: #f9fafb !important;
 }
 
-.dialog-container.night-mode .mat-mdc-dialog-surface {
-  background: #111827;
+/* Form alanı etiketinin (Label) rengi */
+.dialog-container.night-mode ::ng-deep .mdc-floating-label {
+  color: #9ca3af !important; /* Etiket için uygun bir gri tonu */
+}
+
+/* Input alt çizgisi (underline) renk ayarı */
+.dialog-container.night-mode ::ng-deep .mdc-line-ripple::before {
+  border-bottom-color: #4b5563 !important;
 }

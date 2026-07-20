@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 
+
 @Component({
   selector: 'app-table',
   styleUrl: 'table.css',
@@ -19,6 +20,8 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
   imports: [MatTableModule, MatPaginatorModule, MatIcon, MatExpansionModule, MatDividerModule, MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, MatSortModule],
 })
 export class TablePaginationExample implements AfterViewInit {
+  
+
   @Input() nightMode = false;
 
   value = '';
