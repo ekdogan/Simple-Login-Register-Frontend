@@ -29,7 +29,8 @@ export class AuthService {
   constructor() {
     const currentToken = this.token();
     if (currentToken) {
-      this.startTokenTimer(currentToken);
+      // Small defensive check: use setTimeout to ensure initialization completes before a potential logout/redirect kicks off
+      setTimeout(() => this.startTokenTimer(currentToken), 0);
     }
   }
 
@@ -43,6 +44,7 @@ export class AuthService {
     this.setToken(null);
     this.router.navigate(['/login']);
   }
+
   private startTokenTimer(token: string): void {
     try {
       const payloadBase64 = token.split('.')[1];
@@ -64,7 +66,6 @@ export class AuthService {
     }
   }
 
-  // Manuel çıkış yapıldığında arkada çalışan sayacı temizler
   private clearTokenTimer(): void {
     if (this.logoutTimer) {
       clearTimeout(this.logoutTimer);
@@ -89,10 +90,10 @@ export class AuthService {
 
     if (token) {
       window.localStorage.setItem(this.storageKey, token);
-      this.startTokenTimer(token); // <-- Token geldiğinde sayacı başlat
+      this.startTokenTimer(token);
     } else {
       window.localStorage.removeItem(this.storageKey);
-      this.clearTokenTimer(); // <-- Token silindiğinde sayacı durdur
+      this.clearTokenTimer();
     }
   }
 }
