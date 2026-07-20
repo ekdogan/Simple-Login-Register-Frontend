@@ -9,6 +9,17 @@ using ItemCategorizerApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// --- 1. ADIM: CORS SERVİSİNİ EKLE (builder.Build()'den ÖNCE olmalı) ---
+builder.Services.AddCors(options =>
+{
+  options.AddPolicy("AngularAppPolicy", policy =>
+  {
+    policy.WithOrigins("http://localhost:4200") // Angular uygulamanın adresi
+          .AllowAnyHeader()
+          .AllowAnyMethod();
+  });
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -19,10 +30,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    options.Password.RequireDigit = true;
-    options.Password.RequiredLength = 6;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
+  options.Password.RequireDigit = true;
+  options.Password.RequiredLength = 6;
+  options.Password.RequireNonAlphanumeric = false;
+  options.Password.RequireUppercase = false;
+  options.User.RequireUniqueEmail = true;
 })
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
@@ -30,19 +42,19 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 var jwtKey = builder.Configuration["Jwt:Key"] ?? "SUPER_SECRET_KEY_THAT_IS_LONG_ENOUGH_32_BYTES";
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+  options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+  options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(options =>
 {
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
-    };
+  options.TokenValidationParameters = new TokenValidationParameters
+  {
+    ValidateIssuer = false,
+    ValidateAudience = false,
+    ValidateLifetime = true,
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+  };
 });
 
 var app = builder.Build();
@@ -50,11 +62,17 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapScalarApiReference();
-    app.MapOpenApi();
+  app.MapScalarApiReference();
+  app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
+
+// --- 2. ADIM: MIDDLEWARE'İ AKTİF ET (Doğru sıralama çok önemli!) ---
+app.UseRouting();
+
+// ÖNEMLİ: UseCors mutlaka UseRouting'den SONRA, UseAuthorization'dan ÖNCE gelmelidir.
+app.UseCors("AngularAppPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
