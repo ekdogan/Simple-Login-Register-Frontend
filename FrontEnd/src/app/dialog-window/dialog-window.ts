@@ -4,8 +4,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { PeriodicElement } from '../table/table';
-interface DialogData extends PeriodicElement {
+import { Item } from '../table/table';
+interface DialogData extends Item {
   nightMode: boolean;
 }
 @Component({
@@ -27,20 +27,25 @@ export class DialogWindow {
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);
   readonly isNightMode = signal(this.data.nightMode);
   readonly name = signal(this.data.name);
-  readonly position = signal(this.data.position);
-  readonly weight = signal(this.data.weight);
-  readonly symbol = signal(this.data.symbol);
+  readonly category = signal(this.data.category);
+  readonly id = signal(this.data.id);
+  readonly description = signal(this.data.description);
+
 
   onSaveClick(): void {
-    const updatedData: PeriodicElement = {
+    const updatedData: Item = {
       name: this.name(),
-      position: this.position(),
-      weight: this.weight(),
-      symbol: this.symbol(),
+      id: this.id(),
+      category: this.category(),
+      description: this.description(),
     };
     this.dialogRef.close(updatedData);
   }
   onNoClick(): void {
+    this.dialogRef.close();
+  }
+  onDeleteClick(): void{
+    
     this.dialogRef.close();
   }
 }

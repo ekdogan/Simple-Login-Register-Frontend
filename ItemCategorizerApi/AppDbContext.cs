@@ -10,10 +10,10 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 	public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
 	{
 	}
-
-	public DbSet<TodoItem> Todos { get; set; }
+    public DbSet<Items> Items { get; set; }
+    public DbSet<TodoItem> Todos { get; set; }
 }
-
+	
 public class TodoItem
 {
 	public int Id { get; set; }

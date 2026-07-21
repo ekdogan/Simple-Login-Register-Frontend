@@ -7,20 +7,21 @@
     <input matInput [(ngModel)]="name" />
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Position</mat-label>
-    <input matInput [(ngModel)]="position" />
+    <mat-label>ID</mat-label>
+    <input matInput [(ngModel)]="id" />
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Weight</mat-label>
-    <input matInput [(ngModel)]="weight" />
+    <mat-label>Category</mat-label>
+    <input matInput [(ngModel)]="category" />
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Symbol</mat-label>
-    <input matInput [(ngModel)]="symbol" />
+    <mat-label>Description</mat-label>
+    <input matInput [(ngModel)]="description" />
   </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>
     <button matButton (click)="onNoClick()">Back</button>
-    <button matButton (click)="onSaveClick()" cdkFocusInitial>Ok</button>
+    <button matButton (click)="onDeleteClick()">Delete</button>
+    <button matButton (click)="onSaveClick()">Ok</button>
   </mat-dialog-actions>
 </div>
