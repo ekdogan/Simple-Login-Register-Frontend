@@ -171,4 +171,24 @@
   display: none;
 
 } 
+/* Footer hizalama */
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+}
 
+/* Buton stilleri */
+.add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+}
+
+/* Gece modu için buton uyumluluğu (isteğe bağlı) */
+.table-container.night-mode .add-btn {
+  background-color: grey;
+  color: #ffffff;
+}

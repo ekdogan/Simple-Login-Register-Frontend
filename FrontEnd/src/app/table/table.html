@@ -26,7 +26,7 @@
       <!-- Arama çubuğu sağ sütunun başlığına yerleşiyor ama CSS ile sınırlandırılıyor -->
       <th mat-header-cell *matHeaderCellDef class="search-header-cell"> 
         <mat-form-field class="search-form-field" appearance="outline">
-          <mat-label>Search</mat-label>
+          <mat-label>Ara</mat-label>
           <mat-icon matPrefix>search</mat-icon>
           <input matInput [(ngModel)]="value" (keyup)="applyFilter($event)" #input>
           @if (value) {
@@ -53,8 +53,16 @@
   </table>
 
   <mat-divider />
-  <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]"
-                 showFirstLastButtons
-                 aria-label="Select page of periodic elements">
-  </mat-paginator>
+
+  <!-- Buton ve Paginator'ı bir arada tutan wrapper -->
+  <div class="footer-container">
+    <button matButton="" class="add-btn" (click)="onClickAddItemButton()">
+      <mat-icon>add</mat-icon>
+    </button>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]"
+                   showFirstLastButtons
+                   aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>
 </div>

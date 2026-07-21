@@ -18,13 +18,13 @@ export interface DialogData extends Item {
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,],
-  templateUrl: './dialog-window.html',
-  styleUrl: './dialog-window.css',
+  templateUrl: './dialog-window-add.html',
+  styleUrl: './dialog-window-add.css',
 })
 
 
-export class DialogWindow {
-  readonly dialogRef = inject(MatDialogRef<DialogWindow>);
+export class DialogWindowAdd {
+  readonly dialogRef = inject(MatDialogRef<DialogWindowAdd>);
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);
   readonly isNightMode = signal(this.data.nightMode);
   readonly name = signal(this.data.name);

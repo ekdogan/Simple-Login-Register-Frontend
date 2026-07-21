@@ -4,7 +4,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIcon } from "@angular/material/icon";
 import { MatDialog } from '@angular/material/dialog';
-import { DialogWindow } from "../dialog-window/dialog-window";
+import { DialogWindow,DialogData } from "../dialog-window/dialog-window";
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { ItemService } from '../itemservice'; // ItemService import edildi
-
+import {DialogWindowAdd} from '../dialog-window-add/dialog-window-add'
 export interface Item {
   id: number;
   name: string;
@@ -34,7 +34,8 @@ export interface Item {
     MatInputModule, 
     MatButtonModule, 
     FormsModule, 
-    MatSortModule
+    MatSortModule,
+    
   ],
 })
 export class TablePaginationExample implements OnInit, AfterViewInit {
@@ -88,25 +89,61 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
   }
 
   onClickAdjustButton(element: Item): void {
-    const dialogRef = this.dialog.open(DialogWindow, {
-      data: {
-        ...element,
-        nightMode: this.nightMode,
-      },
-      width: '400px'
-    });
+  const dialogRef = this.dialog.open(DialogWindow, {
+    data: {
+      ...element,
+      nightMode: this.nightMode,
+    },
+    width: '400px'
+  });
 
-    dialogRef.afterClosed().subscribe((result: Item | undefined) => {
-      if (result) {
-        // Güncelleme isteği ItemService üzerinden gönderiliyor
-        this.itemService.updateItem(element.id, result).subscribe({
-          next: (updatedItem) => {
-            Object.assign(element, updatedItem);
-            this.dataSource.data = [...this.dataSource.data];
-          },
-          error: (err) => console.error('Veri güncellenirken hata oluştu:', err)
-        });
-      }
+  dialogRef.afterClosed().subscribe((result: DialogData | undefined) => {
+    // Return early if the dialog was closed without action
+    if (!result) return;
+
+    if (result.flag === true) {
+      this.itemService.updateItem(element.id, result).subscribe({
+        next: (updatedItem) => {
+          Object.assign(element, updatedItem);
+          this.dataSource.data = [...this.dataSource.data];
+        },
+        error: (err) => console.error('Veri güncellenirken hata oluştu:', err)
+      });
+    } else {
+      this.itemService.deleteItem(element.id).subscribe({
+        next: () => {
+          this.dataSource.data = this.dataSource.data.filter(i => i.id !== element.id);
+        },
+        error: (err) => console.error('Veri silinirken hata oluştu:', err)
+      });
+    }
+  });
+}
+  onClickAddItemButton(): void {
+  const dialogRef = this.dialog.open(DialogWindowAdd, {
+    data: {
+      id: 0,
+      name: '',
+      category: '',
+      description: '',
+      nightMode: this.nightMode,
+      flag: true
+    },
+    width: '400px'
+  });
+
+  dialogRef.afterClosed().subscribe((result: DialogData | undefined) => {
+    if (!result) return;
+
+    // Omit ID so backend auto-generates it
+    const { id, nightMode, flag, ...newItemPayload } = result;
+
+    this.itemService.addItem(newItemPayload).subscribe({
+      next: (addedItem) => {
+        this.dataSource.data = [...this.dataSource.data, addedItem];
+      },
+      error: (err) => console.error('Veri eklerken hata oluştu:', err)
     });
-  }
+  });
+}
 }
