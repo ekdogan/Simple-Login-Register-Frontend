@@ -78,6 +78,7 @@ public class AuthController : ControllerBase
 		var authClaims = new List<Claim>
 		{
 			new(ClaimTypes.NameIdentifier, user.Id),
+			new(ClaimTypes.Name, user.UserName),
 			new(ClaimTypes.Email, user.Email ?? ""),
 			new(ClaimTypes.Role, user.Role),
 			new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
@@ -87,10 +88,12 @@ public class AuthController : ControllerBase
 		var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
 
 		var token = new JwtSecurityToken(
-			expires: DateTime.UtcNow.AddDays(7),
-			claims: authClaims,
-			signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-		);
+            issuer: _configuration["Jwt:Issuer"],       // EKLENEN SATIR
+            audience: _configuration["Jwt:Audience"],   // EKLENEN SATIR
+            expires: DateTime.UtcNow.AddDays(1),
+            claims: authClaims,
+            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+        );
 
 		return new JwtSecurityTokenHandler().WriteToken(token);
 	}

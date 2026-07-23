@@ -18,6 +18,8 @@ export interface Item {
   name: string;
   category: string;
   description: string;
+  personToEdit?: string;
+  Time?: Date;
 }
 
 @Component({

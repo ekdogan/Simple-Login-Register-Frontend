@@ -44,6 +44,9 @@ namespace ItemCategorizerApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> PutItem(int id, Items item)
         {
+            var currentUserName = User.Identity.Name;
+            item.PersonToEdit = currentUserName;
+            item.Time = DateTime.Now;
             if (id != item.Id)
             {
                 return BadRequest("ID eşleşmiyor.");
@@ -76,6 +79,9 @@ namespace ItemCategorizerApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<Items>> PostItem(Items item)
         {
+            var currentUserName = User.Identity.Name;
+            item.PersonToEdit = currentUserName;
+            item.Time = DateTime.Now;
             _context.Items.Add(item);
             await _context.SaveChangesAsync();
 

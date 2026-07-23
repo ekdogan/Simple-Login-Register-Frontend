@@ -29,7 +29,6 @@ export class AuthService {
   constructor() {
     const currentToken = this.token();
     if (currentToken) {
-      // Small defensive check: use setTimeout to ensure initialization completes before a potential logout/redirect kicks off
       setTimeout(() => this.startTokenTimer(currentToken), 0);
     }
   }
