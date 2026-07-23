@@ -22,6 +22,7 @@ interface SignupData {
   email: string;
   FirstName: string;
   LastName: string;
+  Role: string;
 }
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -46,6 +47,7 @@ SignupModel = signal<SignupData>({
     email: '',
     FirstName: '',
     LastName: '',
+    Role:'user'
   });
 protected get username(): string {
     return this.SignupModel().username;
@@ -91,7 +93,8 @@ protected set LastName(value: string) {
       password: this.SignupModel().password,
       email: this.SignupModel().email,
       FirstName: this.SignupModel().FirstName,
-      LastName: this.SignupModel().LastName
+      LastName: this.SignupModel().LastName,
+      Role: this.SignupModel().Role
     };
     console.log('Sending payload:', payload);
 

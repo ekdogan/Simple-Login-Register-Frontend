@@ -44,14 +44,14 @@ namespace ItemCategorizerApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> PutItem(int id, Items item)
         {
-            var currentUserName = User.Identity.Name;
-            item.PersonToEdit = currentUserName;
-            item.Time = DateTime.Now;
+            
             if (id != item.Id)
             {
                 return BadRequest("ID eşleşmiyor.");
             }
-
+            var currentUserName = User.Identity.Name;
+            item.PersonToEdit = currentUserName;
+            item.Time = DateTime.Now;
             _context.Entry(item).State = EntityState.Modified;
 
             try

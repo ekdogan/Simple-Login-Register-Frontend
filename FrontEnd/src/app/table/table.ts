@@ -13,14 +13,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { ItemService } from '../itemservice';
 import {DialogWindowAdd} from '../dialog-window-add/dialog-window-add'
+import { DatePipe } from '@angular/common';
 export interface Item {
   id: number;
   name: string;
   category: string;
   description: string;
   personToEdit?: string;
-  Time?: Date;
+  time?: Date; 
 }
+
 
 @Component({
   selector: 'app-table',
@@ -37,6 +39,7 @@ export interface Item {
     MatButtonModule, 
     FormsModule, 
     MatSortModule,
+    DatePipe,
   ],
 })
 export class TablePaginationExample implements OnInit, AfterViewInit {
