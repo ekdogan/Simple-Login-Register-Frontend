@@ -5,6 +5,8 @@ import { MatInputModule } from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { Item } from '../table/table';
+import { JSONResponse } from '../aitable/aitable';
+import { CategorizationService, AiResponse} from '../categorization-service';
 export interface DialogData extends Item {
   nightMode?: boolean;
   flag: boolean;
@@ -24,6 +26,7 @@ export interface DialogData extends Item {
 
 
 export class DialogWindow {
+  constructor(private categorizationService: CategorizationService) {}
   readonly dialogRef = inject(MatDialogRef<DialogWindow>);
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);
   readonly isNightMode = signal(this.data.nightMode);
@@ -32,7 +35,7 @@ export class DialogWindow {
   readonly id = signal(this.data.id);
   readonly description = signal(this.data.description);
   readonly flag=this.data.flag;
-
+  aiResponseData: JSONResponse | null = null;
   onSaveClick(): void {
     const updatedData: DialogData = {
       name: this.name(),
@@ -56,4 +59,41 @@ export class DialogWindow {
     }
     this.dialogRef.close(deletedData);
   }
+  sendToAi() {
+      const currentName = this.name() ? this.name().trim() : '';
+  
+      if (!currentName || currentName.length < 2) {
+        return;
+      }
+  
+      
+      this.aiResponseData = null;
+  
+      this.categorizationService.getCategoryPrediction(currentName).subscribe({
+        next: (res: AiResponse) => {
+         
+  
+          this.aiResponseData = {
+            state: res.durum,
+            message: res.mesaj,
+            detail: res.detay,
+            category: res.kategori,
+            product: res.urun
+          };
+  
+          // 🎯 AI'dan gelen öneriyi doğrudan Signal olan kategoriye set ediyoruz
+          if (res.durum === 'basarili' && res.kategori) {
+            this.category.set(res.kategori);
+          }
+        },
+        error: (err) => {
+         
+          this.aiResponseData = {
+            state: 'hata',
+            message: 'HTTP Bağlantı / Servis Hatası',
+            detail: err.error || err
+          };
+        }
+      });
+    }
 }

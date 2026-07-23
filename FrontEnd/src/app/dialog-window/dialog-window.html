@@ -2,26 +2,41 @@
   <h2 mat-dialog-title>Update Element</h2>
   <mat-dialog-content>
     <p>Please update the information:</p>
-    <mat-form-field>
-    <mat-label>Ürün</mat-label>
-    <input matInput [(ngModel)]="name" />
-  </mat-form-field>
-  <mat-form-field>
+    <div class="input-with-button">
+      <mat-form-field appearance="outline" >
+        <mat-label>Ürün</mat-label>
+        <input 
+          matInput 
+          [ngModel]="name()" 
+          (ngModelChange)="name.set($event)" 
+          (keyup.enter)="sendToAi()"
+        />
+      </mat-form-field>
+
+      <button 
+        mat-button 
+        type="button" 
+        (click)="sendToAi()" 
+        class="bttn">
+        {{ 'Ask AI' }}
+      </button>
+    </div>
+  <mat-form-field appearance="outline" >
     <mat-label>ID</mat-label>
     <input matInput [(ngModel)]="id" />
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field appearance="outline" >
     <mat-label>Kategori</mat-label>
     <input matInput [(ngModel)]="category" />
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field appearance="outline" >
     <mat-label>Description</mat-label>
     <input matInput [(ngModel)]="description" />
   </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button matButton (click)="onNoClick()">Back</button>
-    <button matButton (click)="onDeleteClick()">Delete</button>
-    <button matButton (click)="onSaveClick()">Ok</button>
+    <button matButton (click)="onNoClick()" class="bttn">Back</button>
+    <button matButton (click)="onDeleteClick()" class="bttn">Delete</button>
+    <button matButton (click)="onSaveClick()" class="bttn">Ok</button>
   </mat-dialog-actions>
 </div>

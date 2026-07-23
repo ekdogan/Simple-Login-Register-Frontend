@@ -1,0 +1,28 @@
+ <div class="example-container" [class.example-is-mobile]="isMobile()" [class.night-mode]="isNightMode()">
+    <mat-toolbar class="example-toolbar">
+      <button matIconButton (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+      <h1 class="example-app-name">Inventory App</h1>
+      <button class="theme-toggle-button" mat-icon-button (click)="toggleNightMode()" aria-label="Toggle night mode">
+        <mat-icon>{{ isNightMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+      <button class="logout-button" mat-icon-button (click)="onClickLogout()"><mat-icon>logout</mat-icon></button>
+    </mat-toolbar>
+
+
+    <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="isMobile() ? 56 : 0">
+      <mat-sidenav class="nav-list" #snav [mode]="isMobile() ? 'over' : 'side'"[fixedInViewport]="isMobile()" fixedTopGap="56">
+  <mat-nav-list>
+    @for (nav of fillerNav; track nav) {
+      <a
+        mat-list-item
+        class="nav-link"
+        (click)="onClickNavItem(nav)">{{nav}}</a>
+    }
+  </mat-nav-list>
+</mat-sidenav>
+
+      <mat-sidenav-content>
+        <app-aitable [nightMode]="isNightMode()"/>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>

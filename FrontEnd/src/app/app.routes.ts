@@ -4,6 +4,7 @@ import { Signup } from './signup/signup';
 import { Layout } from './layout/layout';
 import {Page} from './page/page'
 import { authGuard } from './auth-guard';
+import { ItemAdd } from './item-add.component/item-add.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -13,5 +14,6 @@ export const routes: Routes = [
   {path: 'headerlayout', loadComponent: () => import('./headerlayout/headerlayout').then((c) => c.SidenavResponsiveExample),
     canActivate: [authGuard]
   },
-  {path:'page', component: Page, canActivate: [authGuard]}
+  {path:'page', component: Page, canActivate: [authGuard]},
+  {path:'item-add',component: ItemAdd},
 ];

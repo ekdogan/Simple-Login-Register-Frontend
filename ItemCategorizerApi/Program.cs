@@ -23,7 +23,15 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddOpenApi(); // .NET 9 Native OpenAPI
+// Program.cs
+builder.Services.AddHttpClient("FastAiClient", (serviceProvider, client) =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    var aiBaseUrl = configuration["AiServiceUrl"] ?? "http://127.0.0.1:8005/";
 
+    client.BaseAddress = new Uri(aiBaseUrl);
+    client.Timeout = TimeSpan.FromSeconds(30); // AI yanıtları için makul bir zaman aşımı
+});//
 // --- SWAGGER SERVİSİNİ EKLE ---
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -52,10 +60,12 @@ builder.Services.AddAuthentication(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = false,
-        ValidateAudience = false,
+        ValidateIssuer = true,
+        ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
 });

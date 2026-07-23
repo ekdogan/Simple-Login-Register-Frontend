@@ -35,14 +35,15 @@ public class AuthController : ControllerBase
 			UserName = model.UserName,
 			SecurityStamp = Guid.NewGuid().ToString(),
 			FirstName = model.FirstName, 
-			LastName = model.LastName,   
+			LastName = model.LastName, 
+			Role= "user"
 		};
 
 		// This hashes the password automatically before saving to SQLite
 		var result = await _userManager.CreateAsync(user, model.Password);
 		if (!result.Succeeded)
 		{
-			var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+			var errors = string.Join(",", result.Errors.Select(e => e.Description));
 			return BadRequest(new AuthResponseDto(false, "", $"Registration failed: {errors}"));
 		}
 
@@ -60,13 +61,16 @@ public class AuthController : ControllerBase
 		}
 		else if (user == null)
 		{
-			return Unauthorized(new AuthResponseDto(false, "", "User Not Found"));
+			return Unauthorized(new AuthResponseDto(false, "", "User Not Found!"));
 		}
 		else if (user!=null && !await _userManager.CheckPasswordAsync(user, model.Password))
 		{
             return Unauthorized(new AuthResponseDto(false, "", "Password Wrong!"));
         }
+		else
+		{
             return Unauthorized(new AuthResponseDto(false, "", "Invalid credentials."));
+        }
 	}
 
 	private string GenerateJwtToken(ApplicationUser user)
@@ -75,6 +79,7 @@ public class AuthController : ControllerBase
 		{
 			new(ClaimTypes.NameIdentifier, user.Id),
 			new(ClaimTypes.Email, user.Email ?? ""),
+			new(ClaimTypes.Role, user.Role),
 			new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 		};
 

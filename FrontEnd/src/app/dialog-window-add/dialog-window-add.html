@@ -1,26 +1,63 @@
 <div class="dialog-container" [class.night-mode]="isNightMode()">
-  <h2 mat-dialog-title>Update Element</h2>
+  <h2 mat-dialog-title>Add Element</h2>
+  
   <mat-dialog-content>
-    <p>Please update the information:</p>
-    <mat-form-field>
-    <mat-label>Ürün</mat-label>
-    <input matInput [(ngModel)]="name" />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>ID</mat-label>
-    <input matInput [(ngModel)]="id" />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Kategori</mat-label>
-    <input matInput [(ngModel)]="category" />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Description</mat-label>
-    <input matInput [(ngModel)]="description" />
-  </mat-form-field>
+    <p>Please add the information:</p>
+
+   
+    <div class="input-with-button">
+      <mat-form-field appearance="outline" >
+        <mat-label>Ürün</mat-label>
+        <input 
+          matInput 
+          [ngModel]="name()" 
+          (ngModelChange)="name.set($event)" 
+          (keyup.enter)="sendToAi()"
+        />
+      </mat-form-field>
+
+      <button 
+        mat-button 
+        type="button" 
+        (click)="sendToAi()" 
+        class="bttn">
+        {{ 'Ask AI' }}
+      </button>
+    </div>
+
+    <!-- 2. ID -->
+    <mat-form-field appearance="outline" >
+      <mat-label>ID</mat-label>
+      <input 
+        matInput 
+        [ngModel]="id()" 
+        (ngModelChange)="id.set($event)" 
+      />
+    </mat-form-field>
+
+    <!-- 3. KATEGORİ -->
+    <mat-form-field appearance="outline" >
+      <mat-label>Kategori</mat-label>
+      <input 
+        matInput 
+        [ngModel]="category()" 
+        (ngModelChange)="category.set($event)"
+      />
+    </mat-form-field>
+
+    <!-- 4. DESCRIPTION -->
+    <mat-form-field appearance="outline" >
+      <mat-label>Description</mat-label>
+      <input 
+        matInput 
+        [ngModel]="description()" 
+        (ngModelChange)="description.set($event)"
+      />
+    </mat-form-field>
   </mat-dialog-content>
-  <mat-dialog-actions>
-    <button matButton (click)="onNoClick()">Back</button>
-    <button matButton (click)="onSaveClick()">Ok</button>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onNoClick()" class="bttn">Back</button>
+    <button mat-button (click)="onSaveClick()" class="bttn">Ok</button>
   </mat-dialog-actions>
 </div>

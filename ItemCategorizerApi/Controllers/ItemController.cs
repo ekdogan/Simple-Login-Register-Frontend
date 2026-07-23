@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ItemCategorizerApi.Models; // Items modeli için
-using ItemCategorizerApi;        // AppDbContext için
+using ItemCategorizerApi.Models;
+using ItemCategorizerApi;
+using Microsoft.AspNetCore.Authorization; // 1. Authorization kütüphanesini ekleyin
 
 namespace ItemCategorizerApi.Controllers
 {
@@ -16,14 +17,14 @@ namespace ItemCategorizerApi.Controllers
             _context = context;
         }
 
-        // GET: api/Item
+        // GET: api/Item (Herkes erişebilir)
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Items>>> GetItems()
         {
             return await _context.Items.ToListAsync();
         }
 
-        // GET: api/Item/5
+        // GET: api/Item/5 (Herkes erişebilir)
         [HttpGet("{id}")]
         public async Task<ActionResult<Items>> GetItem(int id)
         {
@@ -37,8 +38,10 @@ namespace ItemCategorizerApi.Controllers
             return item;
         }
 
-        // PUT: api/Item/5
+        // PUT: api/Item/5 
+        // SADECE "admin" ROLÜNDEKİLER ERİŞEBİLİR
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> PutItem(int id, Items item)
         {
             if (id != item.Id)
@@ -68,7 +71,9 @@ namespace ItemCategorizerApi.Controllers
         }
 
         // POST: api/Item
+        // SADECE "admin" ROLÜNDEKİLER ERİŞEBİLİR
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<Items>> PostItem(Items item)
         {
             _context.Items.Add(item);
@@ -78,7 +83,9 @@ namespace ItemCategorizerApi.Controllers
         }
 
         // DELETE: api/Item/5
+        // SADECE "admin" ROLÜNDEKİLER ERİŞEBİLİR
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteItem(int id)
         {
             var item = await _context.Items.FindAsync(id);

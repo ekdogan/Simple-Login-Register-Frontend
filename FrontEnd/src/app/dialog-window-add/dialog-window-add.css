@@ -33,3 +33,25 @@
 .dialog-container.night-mode ::ng-deep .mdc-line-ripple::before {
   border-bottom-color: #4b5563 !important;
 }
+.dialog-container .bttn{
+color: grey;
+}
+.dialog-container.night-mode .bttn{
+  color:#f9fafb;
+}
+.input-with-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.flex-grow {
+  flex: 1;
+}
+
+.ai-btn {
+  height: 56px; 
+  margin-bottom: 22px;
+  white-space: nowrap;
+}

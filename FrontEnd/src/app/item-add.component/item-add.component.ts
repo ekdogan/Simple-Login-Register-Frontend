@@ -9,13 +9,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { TablePaginationExample } from "../table/table";
 import { AuthService } from '../authservice';
+import { Aitable } from "../aitable/aitable";
 
 @Component({
-  selector: 'page',
-  templateUrl: 'page.html',
-  styleUrl: 'page.css',
+  selector: 'item-add',
+  templateUrl: 'item-add.component.html',
+  styleUrl: 'item-add.component.css',
   standalone: true,
   imports: [
     MatToolbarModule,
@@ -25,10 +25,10 @@ import { AuthService } from '../authservice';
     MatListModule,
     MatTableModule,
     MatPaginatorModule,
-    TablePaginationExample,
-  ],
+    Aitable
+],
 })
-export class Page implements OnDestroy {
+export class ItemAdd implements OnDestroy {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService); 
@@ -58,10 +58,7 @@ export class Page implements OnDestroy {
   }
 
   onClickNavItem(item: string): void {
-    if(Number(item.split(' ')[2])===1){
-      this.router.navigate(['/item-add']);
-    }
-    else if (Number(item.split(' ')[2]) % 2 === 0) {
+    if (Number(item.split(' ')[2]) % 2 === 0) {
       this.router.navigate([`/headerlayout`]);
     } else {
       this.router.navigate([`/page`]);

@@ -10,7 +10,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     return true; // Let them pass
   } else {
     console.log("You have no access.");
-    router.navigate(['/layout']);
+    router.navigate(['/signup']);
     return false;
   }
 };

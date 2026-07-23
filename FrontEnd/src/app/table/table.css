@@ -6,7 +6,6 @@
 .mat-icon{
   color: grey;
 }
-
 /* Tablo Genel Arka Planı */
 .table-container.night-mode,
 .table-container.night-mode .mat-mdc-table {
@@ -32,9 +31,7 @@
   border-color: rgba(255, 255, 255, 0.6) !important;
 }
 
-/* ----------------------------------------- */
-/* 1. PAGINATOR GECE MODU STİLLERİ           */
-/* ----------------------------------------- */
+
 .table-container.night-mode .mat-mdc-paginator,
 .table-container.night-mode .mat-mdc-paginator-container {
   background: transparent !important;
@@ -189,6 +186,9 @@
 
 /* Gece modu için buton uyumluluğu (isteğe bağlı) */
 .table-container.night-mode .add-btn {
-  background-color: grey;
+  background-color: #111111;
   color: #ffffff;
+}
+.table-container.night-mode .mat-icon{
+  color:#ffffff;
 }

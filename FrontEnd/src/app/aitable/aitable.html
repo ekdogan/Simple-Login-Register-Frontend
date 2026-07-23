@@ -1,0 +1,40 @@
+<div class="ai-container">
+  <div class="input-row">
+    <mat-form-field appearance="outline">
+      <mat-label>Ürün Adı</mat-label>
+      <input 
+        matInput 
+        [(ngModel)]="searchText" 
+        placeholder="Örn: Defter, Kalem, Deterjan"
+        (keyup.enter)="sendToAi()"
+      />
+    </mat-form-field>
+
+    <button 
+      matButton
+      color="primary" 
+      (click)="sendToAi()"> Send
+    </button>
+  </div>
+
+  <!-- 1. BAŞARILI SONUÇ -->
+  @if (aiResponseData && aiResponseData.state === 'basarili') {
+    <div class="result-card success">
+      <div><strong>Ürün:</strong> {{ aiResponseData.product }}</div>
+      <div><strong>Önerilen Kategori:</strong> {{ aiResponseData.category }}</div>
+    </div>
+  }
+
+  <!-- 2. HATA DUMUMU (Interface Alanlarıyla Gösterim) -->
+  @if (aiResponseData && aiResponseData.state === 'hata') {
+    <div class="result-card error">
+      <div class="error-title">❌ {{ aiResponseData.message }}</div>
+      
+      <!-- Detay Nesnesi Varsa JSON Pipemız ile Formatlayıp Yazdırıyoruz -->
+      @if (aiResponseData.detail) {
+        <small class="d-block mt-2">Hata Detayı (JSON):</small>
+        <pre class="json-box"><code>{{ aiResponseData.detail | json }}</code></pre>
+      }
+    </div>
+  }
+</div>

@@ -33,3 +33,9 @@
 .dialog-container.night-mode ::ng-deep .mdc-line-ripple::before {
   border-bottom-color: #4b5563 !important;
 }
+.dialog-container .bttn{
+color: grey;
+}
+.dialog-container.night-mode .bttn{
+  color:#f9fafb;
+}

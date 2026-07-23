@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { ItemService } from '../itemservice'; // ItemService import edildi
+import { ItemService } from '../itemservice';
 import {DialogWindowAdd} from '../dialog-window-add/dialog-window-add'
 export interface Item {
   id: number;
@@ -35,7 +35,6 @@ export interface Item {
     MatButtonModule, 
     FormsModule, 
     MatSortModule,
-    
   ],
 })
 export class TablePaginationExample implements OnInit, AfterViewInit {
@@ -146,4 +145,5 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
     });
   });
 }
+
 }
