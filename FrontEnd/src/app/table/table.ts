@@ -14,6 +14,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { ItemService } from '../itemservice';
 import {DialogWindowAdd} from '../dialog-window-add/dialog-window-add'
 import { DatePipe } from '@angular/common';
+import {MatSnackBar} from '@angular/material/snack-bar';
 export interface Item {
   id: number;
   name: string;
@@ -49,7 +50,7 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
   readonly panelOpenState = signal(false);
   private dialog = inject(MatDialog);
   private itemService = inject(ItemService); // Servis enjekte edildi
-
+  private readonly snackBar = inject(MatSnackBar);
   displayedColumns: string[] = ['accordion', 'adjust'];
   dataSource = new MatTableDataSource<Item>([]);
 
@@ -111,7 +112,14 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
           Object.assign(element, updatedItem);
           this.dataSource.data = [...this.dataSource.data];
         },
-        error: (err) => console.error('Veri güncellenirken hata oluştu:', err)
+        error: (err) => {
+          if(err.status == 403){
+          this.snackBar.open('Unautorized!', 'Close', { });
+        }
+        else{
+          console.error('Veri silinirken hata oluştu:', err)
+        }
+        }
       });
     } else {
       this.itemService.deleteItem(element.id).subscribe({
@@ -146,7 +154,14 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
       next: (addedItem) => {
         this.dataSource.data = [...this.dataSource.data, addedItem];
       },
-      error: (err) => console.error('Veri eklerken hata oluştu:', err)
+      error: (err) => {
+          if(err.status == 403){
+          this.snackBar.open('Unautorized!', 'Close', { });
+        }
+        else{
+          console.error('Veri silinirken hata oluştu:', err)
+        }
+        }
     });
   });
 }

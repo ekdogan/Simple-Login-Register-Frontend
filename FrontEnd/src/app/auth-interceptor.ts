@@ -15,14 +15,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         Authorization: `Bearer ${token}`
       } 
     }); 
-    console.log(`Authorization header set with token: ${token}`); 
   }
 
   return next(handledReq).pipe(
     catchError((error: HttpErrorResponse) => { 
       if (error.status === 401) { 
         console.warn('Token is invalid or expired. Logging out...'); 
-        // authService.logout() already handles the redirection to /login
+        
         authService.logout(); 
       }
       return throwError(() => error); 
