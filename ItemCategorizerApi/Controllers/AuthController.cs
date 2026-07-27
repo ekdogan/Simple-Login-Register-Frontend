@@ -73,7 +73,7 @@ public class AuthController : ControllerBase
         }
 	}
 
-	private string GenerateJwtToken(ApplicationUser user)
+    private string GenerateJwtToken(ApplicationUser user)
 	{
 		var authClaims = new List<Claim>
 		{
@@ -96,5 +96,5 @@ public class AuthController : ControllerBase
         );
 
 		return new JwtSecurityTokenHandler().WriteToken(token);
-	}
+	} 
 }

@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Item } from '../table/table';
 import { JSONResponse } from '../aitable/aitable';
 import { CategorizationService, AiResponse} from '../categorization-service';
+import { MatIcon } from '@angular/material/icon';
 export interface DialogData extends Item {
   nightMode?: boolean;
   flag: boolean;
@@ -19,7 +20,8 @@ export interface DialogData extends Item {
     MatButtonModule,
     MatDialogTitle,
     MatDialogContent,
-    MatDialogActions,],
+    MatDialogActions,
+    MatIcon,],
   templateUrl: './dialog-window.html',
   styleUrl: './dialog-window.css',
 })

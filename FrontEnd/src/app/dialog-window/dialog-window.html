@@ -1,42 +1,45 @@
 <div class="dialog-container" [class.night-mode]="isNightMode()">
   <h2 mat-dialog-title>Update Element</h2>
-  <mat-dialog-content>
-    <p>Please update the information:</p>
-    <div class="input-with-button">
-      <mat-form-field appearance="outline" >
-        <mat-label>Ürün</mat-label>
-        <input 
-          matInput 
-          [ngModel]="name()" 
-          (ngModelChange)="name.set($event)" 
-          (keyup.enter)="sendToAi()"
-        />
-      </mat-form-field>
-
+  
+  <mat-dialog-content class="dialog-content-wrapper">
+    <p class="dialog-subtitle">Please update the information:</p>
+    
+    <!-- Ürün Alanı ve İçine Gömülü AI Butonu -->
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
+      <mat-label>Ürün</mat-label>
+      <input 
+        matInput 
+        [ngModel]="name()" 
+        (ngModelChange)="name.set($event)" 
+        (keyup.enter)="sendToAi()"
+      />
+      <!-- mat-icon-button kullanıldı -->
       <button 
-        mat-button 
+        mat-icon-button 
+        matSuffix 
         type="button" 
         (click)="sendToAi()" 
-        class="bttn">
-        {{ 'Ask AI' }}
+        class="embedded-ai-btn"
+        title="Yapay Zekaya Sor">
+        <mat-icon>desktop_windows</mat-icon>
       </button>
-    </div>
-  <mat-form-field appearance="outline" >
-    <mat-label>ID</mat-label>
-    <input matInput [(ngModel)]="id" />
-  </mat-form-field>
-  <mat-form-field appearance="outline" >
-    <mat-label>Kategori</mat-label>
-    <input matInput [(ngModel)]="category" />
-  </mat-form-field>
-  <mat-form-field appearance="outline" >
-    <mat-label>Description</mat-label>
-    <input matInput [(ngModel)]="description" />
-  </mat-form-field>
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
+      <mat-label>Kategori</mat-label>
+      <input matInput [ngModel]="category()" (ngModelChange)="category.set($event)" />
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
+      <mat-label>Description</mat-label>
+      <input matInput [ngModel]="description()" (ngModelChange)="description.set($event)" />
+    </mat-form-field>
+
   </mat-dialog-content>
-  <mat-dialog-actions>
-    <button matButton (click)="onNoClick()" class="bttn">Back</button>
-    <button matButton (click)="onDeleteClick()" class="bttn">Delete</button>
-    <button matButton (click)="onSaveClick()" class="bttn">Ok</button>
+
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-button (click)="onNoClick()" class="bttn">Back</button>
+    <button mat-button (click)="onDeleteClick()" class="bttn" color="warn">Delete</button>
+    <button mat-button (click)="onSaveClick()" class="bttn">Ok</button>
   </mat-dialog-actions>
 </div>
