@@ -38,6 +38,40 @@ namespace ItemCategorizerApi.Controllers
             return item;
         }
 
+        //GetbyPage
+        // GET: api/Item/paged?pageIndex=0&pageSize=10
+        [HttpGet("paged")]
+        public async Task<ActionResult<object>> GetItemsPaged([FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 5)
+        {
+            // Veritabanındaki toplam öğe sayısını alıyoruz (Paginator'ın toplam sayfa sayısını bilmesi için gerekli)
+            var totalCount = await _context.Items.CountAsync();
+
+            // Skip ve Take kullanarak sadece o sayfanın verilerini çekiyoruz
+            var items = await _context.Items
+                                      .OrderBy(i => i.Id) // Opsiyonel: En son eklenenleri ilk sayfada göstermek isterseniz
+                                      .Skip(pageIndex * pageSize)
+                                      .Take(pageSize)
+                                      .ToListAsync();
+
+            // Verileri ve toplam sayıyı birlikte dönüyoruz
+            return Ok(new { Items = items, TotalCount = totalCount });
+        }
+        [HttpGet("paged/{searchItem}")]
+        public async Task<ActionResult<object>> GetItemsPagedSearch(string searchItem, [FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 5)
+        {
+            
+            
+            var query = _context.Items.Where(i => i.Name.ToLower().Contains(searchItem.ToLower()));
+            var totalCount = await query.CountAsync();
+            var items =await query
+                                      .OrderBy(i => i.Id) 
+                                      .Skip(pageIndex * pageSize)
+                                      .Take(pageSize)
+                                      .ToListAsync();
+
+            // Verileri ve toplam sayıyı birlikte dönüyoruz
+            return Ok(new { Items = items, TotalCount = totalCount });
+        }
         // PUT: api/Item/5 
         // SADECE "admin" ROLÜNDEKİLER ERİŞEBİLİR
         [HttpPut("{id}")]

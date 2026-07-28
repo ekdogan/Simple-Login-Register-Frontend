@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input, ViewChild, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIcon } from "@angular/material/icon";
 import { MatDialog } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { ItemService } from '../itemservice';
+import { ItemService, PaginatedResult } from '../itemservice';
 import {DialogWindowAdd} from '../dialog-window-add/dialog-window-add'
 import { DatePipe } from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -53,16 +53,18 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
   private readonly snackBar = inject(MatSnackBar);
   displayedColumns: string[] = ['accordion', 'adjust'];
   dataSource = new MatTableDataSource<Item>([]);
-
+  pageIndex=0;
+  pageSize=5;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
-    this.fetchItems();
+    //this.fetchItems();
+    this.loadPage(this.pageIndex,this.pageSize);
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    //this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
   
@@ -74,6 +76,23 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
       error: (err) => console.error('Veriler çekilirken hata oluştu:', err)
     });
   }
+  loadPage(pageIndex: number, pageSize: number): void {
+    this.itemService.getItemsbyPage(pageSize, pageIndex).subscribe({
+      next: (data) => {
+        this.dataSource.data = data.items;
+        if (this.paginator) {
+          this.paginator.length = data.totalCount; 
+        }
+      },
+      error: (err) => console.error('Veriler çekilirken hata oluştu:', err)
+    });
+  }
+
+  fetchItemsbyPage(event: PageEvent): void{
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadPage(this.pageIndex, this.pageSize);
+  }
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -83,14 +102,24 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
+  applyFilter1(event:Event): void{
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.searchFilter(this.pageIndex,this.pageSize,filterValue);
+  }
+  searchFilter(pageIndex: number, pageSize: number, searchWord: string){
+    this.itemService.getItemsbyPageSelect(pageSize, pageIndex, searchWord).subscribe({
+      next: (data) => {
+        this.dataSource.data = data.items;
+        if (this.paginator) {
+          this.paginator.length = data.totalCount; 
+        }
+      },
+      error: (err) => console.error('Veriler çekilirken hata oluştu:', err)
+    });
+  }
   clearFilter(): void {
-    this.value = '';
-    this.dataSource.filter = '';
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this.value='';
+    this.loadPage(this.pageIndex,this.pageSize);
   }
 
   onClickAdjustButton(element: Item): void {
