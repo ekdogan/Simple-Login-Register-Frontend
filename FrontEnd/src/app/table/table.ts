@@ -53,8 +53,9 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
   private readonly snackBar = inject(MatSnackBar);
   displayedColumns: string[] = ['accordion', 'adjust'];
   dataSource = new MatTableDataSource<Item>([]);
-  pageIndex=0;
-  pageSize=5;
+  pageIndex = 0;
+  pageSize = 5;
+  activeSearchTerm: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -88,23 +89,42 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
     });
   }
 
-  fetchItemsbyPage(event: PageEvent): void{
+  fetchItemsbyPage(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.loadPage(this.pageIndex, this.pageSize);
+    
+    // ARTIK HTML'e bağlı this.value'yu değil, güvenli değişkenimizi kontrol ediyoruz
+    if (this.activeSearchTerm === '') {
+      this.loadPage(this.pageIndex, this.pageSize);
+    } else {
+      this.searchFilter(this.pageIndex, this.pageSize, this.activeSearchTerm);
+    }
   }
 
   applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.value = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = this.value.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-  applyFilter1(event:Event): void{
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.searchFilter(this.pageIndex,this.pageSize,filterValue);
+  applyFilter1(event: Event): void {
+    this.value = (event.target as HTMLInputElement).value;
+    // Sadece arama yapıldığında aranan kelimeyi güvenli değişkene aktarıyoruz
+    this.activeSearchTerm = this.value.trim();
+    
+    this.pageIndex = 0;
+    
+    if (this.paginator) {
+      this.paginator.pageIndex = 0; // Paginator'ı görsel olarak ilk sayfaya al
+    }
+
+    if (this.activeSearchTerm === '') {
+      this.loadPage(this.pageIndex, this.pageSize);
+    } else {
+      this.searchFilter(this.pageIndex, this.pageSize, this.activeSearchTerm);
+    }
   }
   searchFilter(pageIndex: number, pageSize: number, searchWord: string){
     this.itemService.getItemsbyPageSelect(pageSize, pageIndex, searchWord).subscribe({
@@ -118,8 +138,15 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
     });
   }
   clearFilter(): void {
-    this.value='';
-    this.loadPage(this.pageIndex,this.pageSize);
+    this.value = ''; 
+    this.activeSearchTerm = ''; // Güvenli değişkeni de mutlaka sıfırlıyoruz
+    this.pageIndex = 0;
+    
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+    }
+    
+    this.loadPage(this.pageIndex, this.pageSize);
   }
 
   onClickAdjustButton(element: Item): void {
