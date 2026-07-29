@@ -25,7 +25,7 @@ export class ItemService {
       }
     });
   }
-  getItemsbyPageSelect(pageSize: number, pageIndex: number, searchItem: string): Observable<PaginatedResult<Item>> {
+  getItemsbyPageSelect(pageIndex: number, pageSize: number, searchItem: string): Observable<PaginatedResult<Item>> {
    return this.http.get<PaginatedResult<Item>>(`${this.apiUrl}/paged/${searchItem}`, {
       params: {
         pageIndex: pageIndex.toString(),

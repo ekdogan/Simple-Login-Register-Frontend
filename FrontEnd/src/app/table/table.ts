@@ -49,7 +49,7 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
   value = '';
   readonly panelOpenState = signal(false);
   private dialog = inject(MatDialog);
-  private itemService = inject(ItemService); // Servis enjekte edildi
+  private itemService = inject(ItemService);
   private readonly snackBar = inject(MatSnackBar);
   displayedColumns: string[] = ['accordion', 'adjust'];
   dataSource = new MatTableDataSource<Item>([]);
@@ -92,8 +92,6 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
   fetchItemsbyPage(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
-    
-    // ARTIK HTML'e bağlı this.value'yu değil, güvenli değişkenimizi kontrol ediyoruz
     if (this.activeSearchTerm === '') {
       this.loadPage(this.pageIndex, this.pageSize);
     } else {
@@ -111,13 +109,12 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
   }
   applyFilter1(event: Event): void {
     this.value = (event.target as HTMLInputElement).value;
-    // Sadece arama yapıldığında aranan kelimeyi güvenli değişkene aktarıyoruz
     this.activeSearchTerm = this.value.trim();
     
     this.pageIndex = 0;
     
     if (this.paginator) {
-      this.paginator.pageIndex = 0; // Paginator'ı görsel olarak ilk sayfaya al
+      this.paginator.pageIndex = 0;
     }
 
     if (this.activeSearchTerm === '') {
@@ -127,7 +124,7 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
     }
   }
   searchFilter(pageIndex: number, pageSize: number, searchWord: string){
-    this.itemService.getItemsbyPageSelect(pageSize, pageIndex, searchWord).subscribe({
+    this.itemService.getItemsbyPageSelect(pageIndex, pageSize, searchWord).subscribe({
       next: (data) => {
         this.dataSource.data = data.items;
         if (this.paginator) {
@@ -139,7 +136,7 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
   }
   clearFilter(): void {
     this.value = ''; 
-    this.activeSearchTerm = ''; // Güvenli değişkeni de mutlaka sıfırlıyoruz
+    this.activeSearchTerm = '';
     this.pageIndex = 0;
     
     if (this.paginator) {
@@ -159,7 +156,6 @@ export class TablePaginationExample implements OnInit, AfterViewInit {
   });
 
   dialogRef.afterClosed().subscribe((result: DialogData | undefined) => {
-    // Return early if the dialog was closed without action
     if (!result) return;
 
     if (result.flag === true) {
